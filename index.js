@@ -28,3 +28,42 @@ client.addChannelListener('quest-completions', async (msg) => {
         console.log(`Error: ${e.message}`);
     }
 });
+
+client.client.on('messageReactionAdd', async (msgReaction, user) => {
+    try {
+        const { 
+            message: { 
+                channel: { name: channelName, guild }, 
+                content: messageContent,
+                author
+            } 
+        } = msgReaction;
+    
+        if (channelName === 'quest-completions'
+            && messageContent == '!complete quest1') {
+    
+            if (guild.available) {
+                const member = await guild.member(user);
+                const memberRoles = member.roles.cache.map(role => role.name);
+
+                if (memberRoles.includes('Diamond Founder')) {
+                    const metaGamePlayerRole = guild.
+                        roles.cache.find(role => role.name === 'MetaGame Player');
+
+                    const messageAuthor = await guild.member(author);
+
+                    await messageAuthor.roles.add([metaGamePlayerRole.id]);
+
+                    let dmChannel = author.dmChannel;
+
+                    if (!dmChannel) dmChannel = await author.createDM();
+
+                    dmChannel.send('Welcome to MetaGamer');
+                }
+            }
+        }
+    } catch (e) {
+        console.log(`Error: ${e.message}`);
+    }
+    
+})
