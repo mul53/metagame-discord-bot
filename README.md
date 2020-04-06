@@ -25,5 +25,8 @@ We need to add a bot to the server but to do that we need atleast one server. If
 #### Add welcome message
 Add your welcome message to the file `utils/welcomeMsg.js` place the message between the quotes.
 
+#### Add role
+Add the role `MetaGame Player` to your server.
+
 #### Run
 Run `npm run start` to start the bot
