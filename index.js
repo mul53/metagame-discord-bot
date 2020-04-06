@@ -1,6 +1,6 @@
 require("dotenv").config();
 const DiscordClient = require("./lib/discordClient");
-const welcomeMsg = require('./utils/welcomeMsg');
+const welcomeMsg = require("./utils/welcomeMsg");
 
 const client = new DiscordClient(process.env.BOT_TOKEN);
 
