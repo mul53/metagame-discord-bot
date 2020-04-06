@@ -1,5 +1,6 @@
 require("dotenv").config();
 const DiscordClient = require("./lib/discordClient");
+const welcomeMsg = require('./utils/welcomeMsg');
 
 const client = new DiscordClient(process.env.BOT_TOKEN);
 
@@ -28,7 +29,7 @@ client.addChannelListener("quest-completions", async (msg) => {
   }
 });
 
-client.client.on("messageReactionAdd", async (msgReaction, user) => {
+client.addEventListener("messageReactionAdd", async (msgReaction, user) => {
   try {
     const {
       message: {
@@ -47,7 +48,7 @@ client.client.on("messageReactionAdd", async (msgReaction, user) => {
         const memberRoles = member.roles.cache.map((role) => role.name);
 
         if (memberRoles.includes("Diamond Founder")) {
-          const { roleId } = guild.roles.cache.find(
+          const { id: roleId } = guild.roles.cache.find(
             (role) => role.name === "MetaGame Player"
           );
 
@@ -55,7 +56,7 @@ client.client.on("messageReactionAdd", async (msgReaction, user) => {
 
           await messageAuthor.roles.add([roleId]);
 
-          client.sendDirectMessage(author, "Welcome to MetaGamer");
+          client.sendDirectMessage(author, welcomeMsg);
         }
       }
     }
